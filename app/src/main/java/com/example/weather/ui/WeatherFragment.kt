@@ -34,21 +34,21 @@ class WeatherFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.cityId.gravity = Gravity.CENTER_HORIZONTAL
         binding.buttonId.setOnClickListener {
-           // viewModel.getTemperature(binding.cityId.text.toString())
+            // viewModel.getTemperature(binding.cityId.text.toString())
             viewModel.getCurrentWeather(binding.cityId.text.toString())
         }
 
-        viewModel.temp.observe(this.viewLifecycleOwner) {
-            binding.tempId.text = it
-        }
-            viewModel.city.observe(this.viewLifecycleOwner){
-                binding.cityName.text = it
-            }
-            viewModel.icon.observe(this.viewLifecycleOwner)
+        viewModel.forecast.observe(this.viewLifecycleOwner)
+        {
+            with(binding)
             {
-                binding.weatherIcon.load("https:$it")
+                tempId.text = it.current?.tempC.toString().plus(" °C")
+                cityName.text = it.location?.name
+                weatherIcon.load("https:${it.current?.condition?.icon}")
+                weatherDate.text = it.location?.localtime
             }
         }
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

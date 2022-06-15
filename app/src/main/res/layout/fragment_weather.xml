@@ -49,7 +49,7 @@
         app:layout_constraintBottom_toTopOf="@+id/tempId"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/weatherIcon" />
+        app:layout_constraintTop_toBottomOf="@+id/weatherDate" />
 
     <ImageView
         android:id="@+id/weatherIcon"
@@ -61,6 +61,18 @@
         app:layout_constraintHorizontal_bias="0.947"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/weatherDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Current time"
+        app:layout_constraintBottom_toBottomOf="@+id/weatherIcon"
+        app:layout_constraintEnd_toStartOf="@+id/weatherIcon"
+        app:layout_constraintHorizontal_bias="0.058"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.344" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
