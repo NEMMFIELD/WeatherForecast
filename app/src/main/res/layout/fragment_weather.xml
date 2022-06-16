@@ -11,22 +11,12 @@
         android:id="@+id/tempId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/cityId"
-        android:inputType="text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint = "Enter here..."
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tempId" />
+        app:layout_constraintTop_toTopOf="parent"
+       />
 
     <Button
         android:id="@+id/buttonId"
@@ -36,7 +26,38 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cityId" />
+        app:layout_constraintTop_toBottomOf="@+id/cityId"
+        app:layout_constraintVertical_bias="0.26" />
+
+    <TextView
+        android:id="@+id/weatherInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Info"
+        app:layout_constraintBottom_toTopOf="@+id/cityId"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tempId"
+        app:layout_constraintVertical_bias="0.152"
+        tools:text="Info" />
+
+    <EditText
+        android:id="@+id/cityId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/freeicon"
+        android:inputType="text"
+        android:maxLines="1"
+        android:minWidth="48dp"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.034"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tempId"
+        app:layout_constraintVertical_bias="0.402"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <TextView
         android:id="@+id/cityName"
@@ -49,18 +70,20 @@
         app:layout_constraintBottom_toTopOf="@+id/tempId"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/weatherDate" />
+        app:layout_constraintTop_toBottomOf="@+id/weatherDate"
+        android:layout_marginTop="95dp"
+     />
 
     <ImageView
         android:id="@+id/weatherIcon"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_marginTop="4dp"
-        tools:src ="@drawable/ic_launcher_foreground"
+        android:layout_marginTop="3dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.947"
+        app:layout_constraintHorizontal_bias="0.982"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/ic_launcher_foreground" />
 
     <TextView
         android:id="@+id/weatherDate"

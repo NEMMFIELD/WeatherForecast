@@ -12,7 +12,6 @@ import com.example.weather.WeatherViewModel
 import com.example.weather.WeatherViewModelFactory
 import com.example.weather.databinding.FragmentWeatherBinding
 
-
 class WeatherFragment : Fragment() {
     private var _binding: FragmentWeatherBinding? = null
     private val binding get() = _binding!!
@@ -26,6 +25,7 @@ class WeatherFragment : Fragment() {
         if (savedInstanceState != null) {
             binding.cityId.hint = ""
             binding.cityName.text = ""
+            binding.weatherInfo.text = ""
         }
         return binding.root
     }
@@ -34,7 +34,6 @@ class WeatherFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.cityId.gravity = Gravity.CENTER_HORIZONTAL
         binding.buttonId.setOnClickListener {
-            // viewModel.getTemperature(binding.cityId.text.toString())
             viewModel.getCurrentWeather(binding.cityId.text.toString())
         }
 
@@ -46,6 +45,7 @@ class WeatherFragment : Fragment() {
                 cityName.text = it.location?.name
                 weatherIcon.load("https:${it.current?.condition?.icon}")
                 weatherDate.text = it.location?.localtime
+                weatherInfo.text = it.current?.condition?.text
             }
         }
     }

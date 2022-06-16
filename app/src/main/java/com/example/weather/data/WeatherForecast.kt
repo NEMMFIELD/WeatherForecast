@@ -140,8 +140,8 @@ data class Condition(
 	@Json(name="icon")
 	val icon: String? = null,
 
-	//@Json(name="text")
-	//val text: String? = null
+	@Json(name="text")
+	val text: String? = null
 ) : Parcelable
 
 @Parcelize

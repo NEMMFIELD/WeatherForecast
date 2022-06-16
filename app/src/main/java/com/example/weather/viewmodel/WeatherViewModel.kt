@@ -7,10 +7,8 @@ import com.example.weather.network.RetrofitHelper
 import kotlinx.coroutines.launch
 
 class WeatherViewModel : ViewModel() {
-
     private val _forecast = MutableLiveData<WeatherForecast>()
     val forecast:LiveData<WeatherForecast> get () = _forecast
-
 
     fun getCurrentWeather(name:String)
     {
