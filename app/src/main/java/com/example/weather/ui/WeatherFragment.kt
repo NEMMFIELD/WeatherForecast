@@ -41,11 +41,12 @@ class WeatherFragment : Fragment() {
         {
             with(binding)
             {
-                tempId.text = it.current?.tempC.toString().plus(" °C")
+                tempId.text = it.current?.tempC.toString().plus("°")
                 cityName.text = it.location?.name
                 weatherIcon.load("https:${it.current?.condition?.icon}")
                 weatherDate.text = it.location?.localtime
                 weatherInfo.text = it.current?.condition?.text
+                tvMaxMin.text = "${it.forecast?.forecastday?.get(0)?.day?.maxtempC}°/${it.forecast?.forecastday?.get(0)?.day?.mintempC}°"
             }
         }
     }
