@@ -10,6 +10,9 @@ class WeatherViewModel : ViewModel() {
     private val _forecast = MutableLiveData<WeatherForecast>()
     val forecast:LiveData<WeatherForecast> get () = _forecast
 
+    init {
+        viewModelScope.launch { _forecast.value = RetrofitHelper.retrofitService.getForecast("Dubna") }
+    }
     fun getCurrentWeather(name:String)
     {
         viewModelScope.launch {
