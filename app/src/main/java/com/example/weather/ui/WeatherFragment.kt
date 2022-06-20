@@ -19,14 +19,14 @@ import com.example.weather.data.WeatherForecastAdapter
 import com.example.weather.data.WeatherModel
 import com.example.weather.data.convertToWeatherModel
 import com.example.weather.databinding.FragmentWeatherBinding
+import com.google.android.material.tabs.TabLayoutMediator
 
 class WeatherFragment : Fragment() {
     private var _binding: FragmentWeatherBinding? = null
     private val binding get() = _binding!!
     private val viewModel: WeatherViewModel by viewModels { WeatherViewModelFactory() }
-    private lateinit var viewPager: ViewPager2
-    private val listWeather:MutableList<WeatherModel> = ArrayList()
-    private lateinit var recyclerAdapter:WeatherForecastAdapter
+    private val fragList = listOf(FragmentOne.newInstance(),FragmentTwo.newInstance())
+    private val tabNames = listOf("DAYS","HOURS")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -59,19 +59,13 @@ class WeatherFragment : Fragment() {
                 weatherInfo.text = it.current?.condition?.text
                 tvMaxMin.text = "${it.forecast?.forecastday?.get(0)?.day?.maxtempC}°/${it.forecast?.forecastday?.get(0)?.day?.mintempC}°"
             }
-            listWeather.addAll(convertToWeatherModel(it))
-            println("The Result is:$listWeather")
-           //binding.vp.adapter = VPAdapter(listWeather)
-            recyclerAdapter = WeatherForecastAdapter(listWeather)
-            binding.apply {
-                recycle.apply {
-                    layoutManager = LinearLayoutManager(requireActivity())
-                    adapter=recyclerAdapter
-                }
-            }
         }
+        val adapter = VPAdapter(requireActivity(),fragList)
+        binding.vp.adapter = adapter
+        TabLayoutMediator(binding.tabLayout, binding.vp){
+            tab,pos ->tab.text = tabNames[pos]
+        }.attach()
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()
