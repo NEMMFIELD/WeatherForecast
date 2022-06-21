@@ -1,22 +1,28 @@
 package com.example.weather.data
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.weather.databinding.ItemViewBinding
 
-class WeatherForecastAdapter(val items: MutableList<WeatherModelDate>) :
-    RecyclerView.Adapter<WeatherForecastAdapter.ViewHolder>() {
+class WeatherForecastAdapterHours(var items: MutableList<WeatherModelHours>) :
+    ListAdapter<WeatherModelHours, WeatherForecastAdapterHours.ViewHolder>(com.example.weather.data.DiffUtil()) {
     private lateinit var binding: ItemViewBinding
 
+    override fun submitList(list: MutableList<WeatherModelHours>?) {
+        items = list?.toMutableList()?:ArrayList()
+        super.submitList(list)
+    }
     inner class ViewHolder(itemView: ItemViewBinding) : RecyclerView.ViewHolder(itemView.root) {
-        fun bind(item: WeatherModelDate) {
+        fun bind(item: WeatherModelHours) {
             binding.apply {
                 forecastDate.text = item.date
                 forecastInfo.text = item.info
-                forecastTemp.text =
-                    item.forecastMaxTemp.toString() + "°" + "/" + item.forecastMinTemp + "°"
+                forecastTemp.text = item.forecastTemp.toString()
                 forecastImg.load("https:${item.forecastImg}")
             }
         }
@@ -33,5 +39,6 @@ class WeatherForecastAdapter(val items: MutableList<WeatherModelDate>) :
     }
 
     override fun getItemCount(): Int = items.size
+
 
 }

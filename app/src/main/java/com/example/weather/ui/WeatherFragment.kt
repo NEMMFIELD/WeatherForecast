@@ -1,6 +1,5 @@
 package com.example.weather.ui
 
-import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -8,16 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.viewpager2.widget.ViewPager2
 import coil.load
 import com.example.weather.WeatherViewModel
 import com.example.weather.WeatherViewModelFactory
 import com.example.weather.data.VPAdapter
-import com.example.weather.data.WeatherForecastAdapter
-import com.example.weather.data.WeatherModel
-import com.example.weather.data.convertToWeatherModel
 import com.example.weather.databinding.FragmentWeatherBinding
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -25,8 +18,8 @@ class WeatherFragment : Fragment() {
     private var _binding: FragmentWeatherBinding? = null
     private val binding get() = _binding!!
     private val viewModel: WeatherViewModel by viewModels { WeatherViewModelFactory() }
-    private val fragList = listOf(FragmentOne.newInstance(),FragmentTwo.newInstance())
-    private val tabNames = listOf("DAYS","HOURS")
+    private val fragList = listOf(FragmentOne.newInstance(), FragmentTwo.newInstance())
+    private val tabNames = listOf("DAYS", "HOURS")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -57,13 +50,15 @@ class WeatherFragment : Fragment() {
                 weatherIcon.load("https:${it.current?.condition?.icon}")
                 weatherDate.text = it.location?.localtime
                 weatherInfo.text = it.current?.condition?.text
-                tvMaxMin.text = "${it.forecast?.forecastday?.get(0)?.day?.maxtempC}°/${it.forecast?.forecastday?.get(0)?.day?.mintempC}°"
+                tvMaxMin.text = "${it.forecast?.forecastday?.get(0)?.day?.maxtempC}°/${
+                    it.forecast?.forecastday?.get(0)?.day?.mintempC
+                }°"
             }
         }
-        val adapter = VPAdapter(requireActivity(),fragList)
+        val adapter = VPAdapter(requireActivity(), fragList)
         binding.vp.adapter = adapter
-        TabLayoutMediator(binding.tabLayout, binding.vp){
-            tab,pos ->tab.text = tabNames[pos]
+        TabLayoutMediator(binding.tabLayout, binding.vp) { tab, pos ->
+            tab.text = tabNames[pos]
         }.attach()
     }
 

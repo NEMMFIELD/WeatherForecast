@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weather.WeatherViewModel
 import com.example.weather.WeatherViewModelFactory
 import com.example.weather.data.WeatherForecastAdapter
-import com.example.weather.data.WeatherModel
+import com.example.weather.data.WeatherModelDate
 import com.example.weather.data.convertToWeatherModel
 
 import com.example.weather.databinding.FragmentOneBinding
@@ -18,7 +18,7 @@ import com.example.weather.databinding.FragmentOneBinding
 
 class FragmentOne : Fragment() {
     private val viewModel: WeatherViewModel by viewModels { WeatherViewModelFactory() }
-    private val listWeather: MutableList<WeatherModel> = ArrayList()
+    private val listWeather: MutableList<WeatherModelDate> = ArrayList()
     private lateinit var recyclerAdapter: WeatherForecastAdapter
     private var _binding: FragmentOneBinding? = null
     private val binding get() = _binding!!
