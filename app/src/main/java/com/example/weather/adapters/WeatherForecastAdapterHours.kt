@@ -1,12 +1,11 @@
-package com.example.weather.data
+package com.example.weather.adapters
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.example.weather.data.WeatherModelHours
 import com.example.weather.databinding.ItemViewBinding
 
 class WeatherForecastAdapterHours(var items: MutableList<WeatherModelHours>) :

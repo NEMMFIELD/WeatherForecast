@@ -1,22 +1,20 @@
 package com.example.weather.ui
 
 import android.os.Bundle
-import android.util.ArraySet
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weather.WeatherViewModel
 import com.example.weather.WeatherViewModelFactory
-import com.example.weather.data.*
+import com.example.weather.adapters.WeatherForecastAdapterHours
+import com.example.weather.data.WeatherModelHours
+import com.example.weather.data.convertToWeatherHoursModel
 import com.example.weather.databinding.FragmentTwoBinding
-import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.HashSet
 
-class FragmentTwo : Fragment() {
+class FragmentHours : Fragment() {
     private var _binding: FragmentTwoBinding? = null
     private val binding get() = _binding!!
     private val viewModel: WeatherViewModel by viewModels { WeatherViewModelFactory() }
@@ -47,13 +45,12 @@ class FragmentTwo : Fragment() {
                     adapter = recyclerAdapterHours
                 }
             }
-
         }
 
     }
 
     companion object {
         @JvmStatic
-        fun newInstance():FragmentTwo = FragmentTwo()
+        fun newInstance(): FragmentHours = FragmentHours()
     }
 }

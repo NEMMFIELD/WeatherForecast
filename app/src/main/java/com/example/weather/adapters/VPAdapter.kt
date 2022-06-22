@@ -1,4 +1,4 @@
-package com.example.weather.data
+package com.example.weather.adapters
 
 
 import androidx.fragment.app.Fragment

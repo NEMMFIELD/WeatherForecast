@@ -6,19 +6,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import coil.load
-import com.example.weather.WeatherViewModel
-import com.example.weather.WeatherViewModelFactory
-import com.example.weather.data.VPAdapter
+import com.example.weather.adapters.VPAdapter
 import com.example.weather.databinding.FragmentWeatherBinding
+import com.example.weather.viewmodel.ViewModelDays
 import com.google.android.material.tabs.TabLayoutMediator
 
 class WeatherFragment : Fragment() {
     private var _binding: FragmentWeatherBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: WeatherViewModel by viewModels { WeatherViewModelFactory() }
-    private val fragList = listOf(FragmentOne.newInstance(), FragmentTwo.newInstance())
+    private val sharedViewModel: ViewModelDays by activityViewModels()
+    private val fragList = listOf(FragmentDays.newInstance(), FragmentHours.newInstance())
     private val tabNames = listOf("DAYS", "HOURS")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,13 +34,13 @@ class WeatherFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         binding.cityId.gravity = Gravity.CENTER_HORIZONTAL
         binding.buttonId.setOnClickListener {
-            viewModel.getCurrentWeather(binding.cityId.text.toString())
+            sharedViewModel.setCity(binding.cityId.text.toString())
         }
 
-        viewModel.forecast.observe(this.viewLifecycleOwner)
+
+        sharedViewModel.forecastDays.observe(this.viewLifecycleOwner)
         {
             with(binding)
             {
@@ -55,6 +54,7 @@ class WeatherFragment : Fragment() {
                 }°"
             }
         }
+
         val adapter = VPAdapter(requireActivity(), fragList)
         binding.vp.adapter = adapter
         TabLayoutMediator(binding.tabLayout, binding.vp) { tab, pos ->

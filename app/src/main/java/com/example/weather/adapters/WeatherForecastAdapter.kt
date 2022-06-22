@@ -1,13 +1,16 @@
-package com.example.weather.data
+package com.example.weather.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.example.weather.data.WeatherModelDate
 import com.example.weather.databinding.ItemViewBinding
 
-class WeatherForecastAdapter(val items: MutableList<WeatherModelDate>) :
-    RecyclerView.Adapter<WeatherForecastAdapter.ViewHolder>() {
+class WeatherForecastAdapter(var items: MutableList<WeatherModelDate>) :
+    ListAdapter<WeatherModelDate, WeatherForecastAdapter.ViewHolder>(DiffCallback()) {
     private lateinit var binding: ItemViewBinding
 
     inner class ViewHolder(itemView: ItemViewBinding) : RecyclerView.ViewHolder(itemView.root) {
@@ -34,4 +37,18 @@ class WeatherForecastAdapter(val items: MutableList<WeatherModelDate>) :
 
     override fun getItemCount(): Int = items.size
 
+}
+
+private class DiffCallback : DiffUtil.ItemCallback<WeatherModelDate>() {
+
+    private val payload = Any()
+
+    override fun areItemsTheSame(oldItem: WeatherModelDate, newItem: WeatherModelDate): Boolean =
+        (oldItem.date == newItem.date)
+
+    override fun areContentsTheSame(oldItem: WeatherModelDate, newItem: WeatherModelDate): Boolean =
+        (oldItem == newItem)
+
+    override fun getChangePayload(oldItem: WeatherModelDate, newItem: WeatherModelDate): Any =
+        payload
 }
