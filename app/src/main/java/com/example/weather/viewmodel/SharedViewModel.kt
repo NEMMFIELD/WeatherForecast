@@ -11,13 +11,18 @@ class ViewModelDays : ViewModel() {
     private val _forecastDays = MutableLiveData<WeatherForecast>()
     val forecastDays: LiveData<WeatherForecast> get() = _forecastDays
 
+    init {
+        viewModelScope.launch {
+            _forecastDays.value = RetrofitHelper.retrofitService.getForecast("Dubna")
+        }
+    }
+
     fun setCity(name: String) {
         viewModelScope.launch {
             _forecastDays.value = RetrofitHelper.retrofitService.getForecast(name)
         }
     }
 }
-
 
 class ViewModelDaysFactory : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")

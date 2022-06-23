@@ -5,19 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.weather.WeatherViewModel
-import com.example.weather.WeatherViewModelFactory
 import com.example.weather.adapters.WeatherForecastAdapterHours
 import com.example.weather.data.WeatherModelHours
 import com.example.weather.data.convertToWeatherHoursModel
 import com.example.weather.databinding.FragmentTwoBinding
+import com.example.weather.viewmodel.ViewModelDays
 
 class FragmentHours : Fragment() {
     private var _binding: FragmentTwoBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: WeatherViewModel by viewModels { WeatherViewModelFactory() }
+    private val sharedViewModel: ViewModelDays by activityViewModels()
     private val listWeather: MutableList<WeatherModelHours> = ArrayList()
     private lateinit var recyclerAdapterHours: WeatherForecastAdapterHours
     override fun onCreateView(
@@ -31,22 +31,31 @@ class FragmentHours : Fragment() {
     @Override
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.forecast.observe(this.viewLifecycleOwner)
-        {
-                for (j in it.forecast?.forecastday?.get(0)?.hour?.indices!!)
-                {
-                    listWeather.add(convertToWeatherHoursModel(it,j))
-                }
+        sharedViewModel.forecastDays.observe(this.viewLifecycleOwner, Observer {
+            for (j in it.forecast?.forecastday?.get(0)?.hour?.indices!!) {
+                listWeather.add(convertToWeatherHoursModel(it, j))
+            }
             recyclerAdapterHours = WeatherForecastAdapterHours(listWeather)
-            recyclerAdapterHours.submitList(listWeather)
+            listWeather.clear()
+            val newList = ArrayList<WeatherModelHours>()
+            for (i in it.forecast.forecastday[0]?.hour?.indices!!) {
+                newList.add(convertToWeatherHoursModel(it, i))
+            }
+            listWeather.addAll(newList)
+            // println("size is:${listWeather.size}")
+            for (i in listWeather.indices) {
+                println(listWeather[i])
+            }
+            recyclerAdapterHours.notifyDataSetChanged()
             binding.apply {
                 recycleHours.apply {
                     layoutManager = LinearLayoutManager(requireActivity())
                     adapter = recyclerAdapterHours
+                    recyclerAdapterHours.notifyDataSetChanged()
                 }
             }
-        }
-
+            println("Adapter: ${recyclerAdapterHours.items}")
+        })
     }
 
     companion object {
