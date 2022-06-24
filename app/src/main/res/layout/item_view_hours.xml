@@ -3,41 +3,49 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="10dp"
     android:orientation="horizontal">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:backgroundTint="@color/card_blue"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="10dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardElevation="0dp"
+        app:cardUseCompatPadding="true">
 
-        <TextView
-            android:id="@+id/forecastHours"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Forecast Date" />
+            android:padding="5dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/forecastHours"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Forecast Date" />
+
+            <TextView
+                android:id="@+id/forecastInfoHours"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Forecast Info" />
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/forecastInfoHours"
-            android:layout_width="match_parent"
+            android:id="@+id/forecastTempHours"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Forecast Info" />
-    </LinearLayout>
+            android:layout_gravity="center"
+            android:text="Forecast Temp" />
 
-    <TextView
-        android:id="@+id/forecastTempHours"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Forecast Temp" />
-
-    <ImageView
-        android:id="@+id/forecastImgHours"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_weight="1"
-        app:srcCompat="@drawable/ic_launcher_foreground" />
+        <ImageView
+            android:id="@+id/forecastImgHours"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="end|center"
+            app:srcCompat="@drawable/ic_launcher_foreground" />
+    </androidx.cardview.widget.CardView>
 </LinearLayout>
