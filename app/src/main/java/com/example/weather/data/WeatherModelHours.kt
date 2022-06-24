@@ -2,7 +2,6 @@ package com.example.weather.data
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
-import kotlin.time.Duration.Companion.hours
 
 @Parcelize
 data class WeatherModelHours(
@@ -12,10 +11,14 @@ data class WeatherModelHours(
     val forecastImg: String?
 ) : Parcelable
 
-fun convertToWeatherHoursModel(generalClass: WeatherForecast?, countHours:Int): WeatherModelHours =
+fun convertToWeatherHoursModel(
+    generalClass: WeatherForecast?,
+    countDays: Int,
+    countHours: Int
+): WeatherModelHours =
     WeatherModelHours(
-        date = generalClass?.forecast?.forecastday?.get(0)?.hour?.get(countHours)?.time,
-        info = generalClass?.forecast?.forecastday?.get(0)?.hour?.get(countHours)?.condition?.text,
-        forecastTemp = generalClass?.forecast?.forecastday?.get(0)?.hour?.get(countHours)?.tempC,
-        forecastImg = generalClass?.forecast?.forecastday?.get(0)?.hour?.get(countHours)?.condition?.icon,
+        date = generalClass?.forecast?.forecastday?.get(countDays)?.hour?.get(countHours)?.time,
+        info = generalClass?.forecast?.forecastday?.get(countDays)?.hour?.get(countHours)?.condition?.text,
+        forecastTemp = generalClass?.forecast?.forecastday?.get(countDays)?.hour?.get(countHours)?.tempC,
+        forecastImg = generalClass?.forecast?.forecastday?.get(countDays)?.hour?.get(countHours)?.condition?.icon,
     )

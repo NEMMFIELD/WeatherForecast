@@ -25,6 +25,7 @@ class WeatherForecastAdapterHours(var items: MutableList<WeatherModelHours>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
         holder.bind(items[position])
         holder.setIsRecyclable(false)
     }
