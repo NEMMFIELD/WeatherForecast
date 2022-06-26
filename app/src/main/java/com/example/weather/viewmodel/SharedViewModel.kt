@@ -1,6 +1,7 @@
 package com.example.weather.viewmodel
 
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.example.weather.data.WeatherForecast
 import com.example.weather.network.RetrofitHelper
@@ -13,13 +14,22 @@ class ViewModelDays : ViewModel() {
 
     init {
         viewModelScope.launch {
-            _forecastDays.value = RetrofitHelper.retrofitService.getForecast("Dubna")
+            try {
+                _forecastDays.value = RetrofitHelper.retrofitService.getForecast("Dubna")
+            } catch (e: Exception) {
+                Log.d("Error_start", e.toString())
+            }
         }
     }
 
     fun setCity(name: String) {
         viewModelScope.launch {
-            _forecastDays.value = RetrofitHelper.retrofitService.getForecast(name)
+            try {
+                _forecastDays.value = RetrofitHelper.retrofitService.getForecast(name)
+            } catch (e: Exception) {
+                Log.d("Error", e.toString())
+            }
+
         }
     }
 }

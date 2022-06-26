@@ -49,7 +49,9 @@ class WeatherFragment : Fragment() {
             }
             myDialog.show()
         }
-
+        binding.buttonId.setOnClickListener {
+            sharedViewModel.setCity(cities as String)
+        }
 
         sharedViewModel.forecastDays.observe(this.viewLifecycleOwner)
         {
@@ -65,7 +67,6 @@ class WeatherFragment : Fragment() {
                 }°"
             }
         }
-
         val adapter = VPAdapter(requireActivity(), fragList)
         binding.vp.adapter = adapter
         TabLayoutMediator(binding.tabLayout, binding.vp) { tab, pos ->
