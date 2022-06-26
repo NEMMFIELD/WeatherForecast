@@ -50,7 +50,7 @@ class WeatherFragment : Fragment() {
             myDialog.show()
         }
         binding.buttonId.setOnClickListener {
-            sharedViewModel.setCity(cities as String)
+            cities?.let { it1 -> sharedViewModel.setCity(it1) }
         }
 
         sharedViewModel.forecastDays.observe(this.viewLifecycleOwner)
