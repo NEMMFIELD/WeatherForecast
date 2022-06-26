@@ -78,16 +78,13 @@
                 app:layout_constraintTop_toBottomOf="@+id/tempId"
                 app:layout_constraintVertical_bias="0.0" />
 
-            <EditText
+            <ImageView
                 android:id="@+id/cityId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableStart="@drawable/freeicon"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginBottom="8dp"
                 android:fontFamily="sans-serif-medium"
-                android:inputType="text"
-                android:maxLines="1"
-                android:minWidth="48dp"
-                android:minHeight="48dp"
+                android:src="@drawable/freeicon"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/buttonId"
                 app:layout_constraintHorizontal_bias="0.057"
