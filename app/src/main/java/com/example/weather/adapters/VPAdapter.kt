@@ -9,6 +9,7 @@ class VPAdapter(fa: FragmentActivity, private val list:List<Fragment>): Fragment
     override fun getItemCount(): Int = list.size
 
     override fun createFragment(position: Int): Fragment = list[position]
+
 }
 
 

@@ -19,8 +19,9 @@ class WeatherFragment : Fragment() {
     private var _binding: FragmentWeatherBinding? = null
     private val binding get() = _binding!!
     private val sharedViewModel: ViewModelDays by activityViewModels()
-    private val fragList = listOf(FragmentDays.newInstance(), FragmentHours.newInstance())
+    private var fragList = mutableListOf(FragmentDays.newInstance(), FragmentHours.newInstance())
     private val tabNames = listOf("DAYS", "HOURS")
+
     private var cities: String? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,9 +29,7 @@ class WeatherFragment : Fragment() {
     ): View {
         _binding = FragmentWeatherBinding.inflate(inflater, container, false)
         if (savedInstanceState != null) {
-            // binding.cityId.hint = ""
-            binding.cityName.text = ""
-            binding.weatherInfo.text = ""
+
         }
         return binding.root
     }
@@ -67,7 +66,7 @@ class WeatherFragment : Fragment() {
                 }°"
             }
         }
-        val adapter = VPAdapter(requireActivity(), fragList)
+        val adapter = VPAdapter(fa = requireActivity(), fragList)
         binding.vp.adapter = adapter
         TabLayoutMediator(binding.tabLayout, binding.vp) { tab, pos ->
             tab.text = tabNames[pos]
@@ -78,10 +77,9 @@ class WeatherFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         // outState.putString("editText", binding.cityId.text.toString())
-    }
 
+    }
 }

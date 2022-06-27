@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .setReorderingAllowed(true)
-                .add(R.id.fragment_container_view, WeatherFragment::class.java, null).commit()
+                .replace(R.id.fragment_container_view, WeatherFragment::class.java, null).commit()
         }
     }
 }

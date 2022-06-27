@@ -14,6 +14,7 @@ class WeatherForecastAdapter(var items: MutableList<WeatherModelDate>) :
     private lateinit var binding: ItemViewBinding
 
     inner class ViewHolder(itemView: ItemViewBinding) : RecyclerView.ViewHolder(itemView.root) {
+
         fun bind(item: WeatherModelDate) {
             binding.apply {
                 forecastDate.text = item.date
@@ -23,10 +24,21 @@ class WeatherForecastAdapter(var items: MutableList<WeatherModelDate>) :
                 forecastImg.load("https:${item.forecastImg}")
             }
         }
+
+    }
+
+    override fun onViewRecycled(holder: ViewHolder) {
+        super.onViewRecycled(holder)
+        binding.apply {
+            forecastDate.text = ""
+            forecastInfo.text = ""
+            forecastTemp.text = ""
+        }
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(items[position])
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

@@ -1,6 +1,7 @@
 package com.example.weather.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,22 +12,22 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weather.adapters.WeatherForecastAdapter
 import com.example.weather.data.WeatherModelDate
 import com.example.weather.data.convertToWeatherModel
-import com.example.weather.databinding.FragmentOneBinding
+import com.example.weather.databinding.FragmentDaysBinding
 import com.example.weather.viewmodel.ViewModelDays
 
 
 class FragmentDays : Fragment() {
     private val sharedViewModel: ViewModelDays by activityViewModels()
     private val listWeather: MutableList<WeatherModelDate> = ArrayList()
-    private var list: MutableList<WeatherModelDate> = ArrayList()
     private lateinit var recyclerAdapter: WeatherForecastAdapter
-    private var _binding: FragmentOneBinding? = null
+    private var _binding: FragmentDaysBinding? = null
     private val binding get() = _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentOneBinding.inflate(inflater, container, false)
+        _binding = FragmentDaysBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -52,10 +53,16 @@ class FragmentDays : Fragment() {
 
                 }
             }
+            Log.d("ADAPTER", listWeather.size.toString())
         })
     }
 
-    companion object{
+    companion object {
         fun newInstance(): FragmentDays = FragmentDays()
     }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+    }
+
 }
