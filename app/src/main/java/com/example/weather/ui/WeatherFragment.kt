@@ -3,6 +3,7 @@ package com.example.weather.ui
 import android.app.AlertDialog
 import android.os.Bundle
 import android.text.InputType
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,9 +29,6 @@ class WeatherFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentWeatherBinding.inflate(inflater, container, false)
-        if (savedInstanceState != null) {
-
-        }
         return binding.root
     }
 
@@ -44,7 +42,13 @@ class WeatherFragment : Fragment() {
             myDialog.setView(editCityText)
             myDialog.setPositiveButton("Ok") { _, _ ->
                 cities = editCityText.text.toString()
-                sharedViewModel.setCity(cities as String)
+                try{
+                    sharedViewModel.setCity(cities as String)
+                }
+                catch(e:Exception)
+                {
+                    Log.d("Error",e.toString())
+                }
             }
             myDialog.show()
         }
