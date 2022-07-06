@@ -1,11 +1,13 @@
 package com.example.weather.ui
 
+import android.app.Application
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weather.adapters.WeatherForecastAdapterHours
@@ -13,12 +15,14 @@ import com.example.weather.data.WeatherModelHours
 import com.example.weather.data.convertToWeatherHoursModel
 import com.example.weather.databinding.FragmentHoursBinding
 import com.example.weather.viewmodel.ViewModelDays
+import com.example.weather.viewmodel.WeatherViewModelFactory
 
 class FragmentHours : Fragment() {
     private var _binding: FragmentHoursBinding? = null
     private val binding get() = _binding!!
-    private val sharedViewModel: ViewModelDays by activityViewModels()
+   private val sharedViewModel: ViewModelDays by activityViewModels()
     private val listWeather: MutableList<WeatherModelHours> = ArrayList()
+   // private val sharedViewModel: ViewModelDays by viewModels { WeatherViewModelFactory(application = Application()) }
     private lateinit var recyclerAdapterHours: WeatherForecastAdapterHours
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

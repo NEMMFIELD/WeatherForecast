@@ -1,6 +1,7 @@
 package com.example.weather.ui
 
 import android.app.AlertDialog
+import android.app.Application
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
@@ -10,10 +11,14 @@ import android.view.ViewGroup
 import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.work.WorkManager
 import coil.load
 import com.example.weather.adapters.VPAdapter
+import com.example.weather.background.WorkerRepository
 import com.example.weather.databinding.FragmentWeatherBinding
 import com.example.weather.viewmodel.ViewModelDays
+import com.example.weather.viewmodel.WeatherViewModelFactory
 import com.google.android.material.tabs.TabLayoutMediator
 
 class WeatherFragment : Fragment() {
@@ -22,7 +27,7 @@ class WeatherFragment : Fragment() {
     private val sharedViewModel: ViewModelDays by activityViewModels()
     private var fragList = mutableListOf(FragmentDays.newInstance(), FragmentHours.newInstance())
     private val tabNames = listOf("DAYS", "HOURS")
-
+    private val workRepository = WorkerRepository()
     private var cities: String? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,12 +47,10 @@ class WeatherFragment : Fragment() {
             myDialog.setView(editCityText)
             myDialog.setPositiveButton("Ok") { _, _ ->
                 cities = editCityText.text.toString()
-                try{
+                try {
                     sharedViewModel.setCity(cities as String)
-                }
-                catch(e:Exception)
-                {
-                    Log.d("Error",e.toString())
+                } catch (e: Exception) {
+                    Log.d("Error", e.toString())
                 }
             }
             myDialog.show()
@@ -75,15 +78,13 @@ class WeatherFragment : Fragment() {
         TabLayoutMediator(binding.tabLayout, binding.vp) { tab, pos ->
             tab.text = tabNames[pos]
         }.attach()
+        WorkManager.getInstance(requireContext()).enqueue(workRepository.periodicWork)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        WorkManager.getInstance(requireContext()).cancelAllWorkByTag("WM")
     }
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        // outState.putString("editText", binding.cityId.text.toString())
 
-    }
 }

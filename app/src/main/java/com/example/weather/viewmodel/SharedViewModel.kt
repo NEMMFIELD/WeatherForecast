@@ -1,17 +1,21 @@
 package com.example.weather.viewmodel
 
 
+import android.app.Application
+import android.content.Context
 import android.util.Log
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.*
+import androidx.work.WorkManager
+import com.example.weather.background.WorkerRepository
 import com.example.weather.data.WeatherForecast
 import com.example.weather.network.RetrofitHelper
 import kotlinx.coroutines.launch
 
 //Shared ViewModel
-class ViewModelDays : ViewModel() {
+class ViewModelDays() : ViewModel() {
     private val _forecastDays = MutableLiveData<WeatherForecast>()
     val forecastDays: LiveData<WeatherForecast> get() = _forecastDays
-
     init {
         viewModelScope.launch {
             try {
@@ -34,10 +38,14 @@ class ViewModelDays : ViewModel() {
     }
 }
 
-class ViewModelDaysFactory : ViewModelProvider.Factory {
-    @Suppress("UNCHECKED_CAST")
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T = when (modelClass) {
-        ViewModelDays::class.java -> ViewModelDays()
-        else -> throw IllegalArgumentException("$modelClass is not registered ViewModel")
-    } as T
+class WeatherViewModelFactory(private val application: Application) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        return if (modelClass.isAssignableFrom(ViewModelDays::class.java)) {
+            ViewModelDays() as T
+        } else {
+            throw IllegalArgumentException("Unknown ViewModel class")
+        }
+    }
 }
+
+
