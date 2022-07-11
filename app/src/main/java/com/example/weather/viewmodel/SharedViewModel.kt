@@ -1,13 +1,8 @@
 package com.example.weather.viewmodel
 
 
-import android.app.Application
-import android.content.Context
 import android.util.Log
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.*
-import androidx.work.WorkManager
-import com.example.weather.background.WorkerRepository
 import com.example.weather.data.WeatherForecast
 import com.example.weather.network.RetrofitHelper
 import kotlinx.coroutines.launch
@@ -38,14 +33,5 @@ class ViewModelDays() : ViewModel() {
     }
 }
 
-class WeatherViewModelFactory(private val application: Application) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return if (modelClass.isAssignableFrom(ViewModelDays::class.java)) {
-            ViewModelDays() as T
-        } else {
-            throw IllegalArgumentException("Unknown ViewModel class")
-        }
-    }
-}
 
 

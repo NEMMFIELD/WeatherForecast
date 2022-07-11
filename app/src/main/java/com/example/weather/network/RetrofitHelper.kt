@@ -13,5 +13,5 @@ object RetrofitHelper {
         .addConverterFactory(MoshiConverterFactory.create(moshi))
         .baseUrl(BASE_URL)
         .build()
-        val retrofitService: WeatherApi by lazy { retrofit.create(WeatherApi::class.java) }
+    val retrofitService: WeatherApi by lazy { retrofit.create(WeatherApi::class.java) }
 }

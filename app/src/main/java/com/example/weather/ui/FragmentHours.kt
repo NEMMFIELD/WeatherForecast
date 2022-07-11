@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weather.adapters.WeatherForecastAdapterHours
 import com.example.weather.data.WeatherModelHours
 import com.example.weather.data.convertToWeatherHoursModel
+import com.example.weather.database.Repository
 import com.example.weather.databinding.FragmentHoursBinding
 import com.example.weather.viewmodel.ViewModelDays
 import com.example.weather.viewmodel.WeatherViewModelFactory
@@ -22,7 +23,7 @@ class FragmentHours : Fragment() {
     private val binding get() = _binding!!
    private val sharedViewModel: ViewModelDays by activityViewModels()
     private val listWeather: MutableList<WeatherModelHours> = ArrayList()
-   // private val sharedViewModel: ViewModelDays by viewModels { WeatherViewModelFactory(application = Application()) }
+
     private lateinit var recyclerAdapterHours: WeatherForecastAdapterHours
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,7 +53,6 @@ class FragmentHours : Fragment() {
             }
 
             listWeather.addAll(newList)
-            // println("size is:${listWeather.size}")
             for (i in listWeather.indices) {
                 println(listWeather[i])
             }
@@ -65,8 +65,6 @@ class FragmentHours : Fragment() {
                     recyclerAdapterHours.notifyDataSetChanged()
                 }
             }
-
-            println("Adapter: ${recyclerAdapterHours.items}")
         })
     }
 

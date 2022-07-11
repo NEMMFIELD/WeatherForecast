@@ -7,7 +7,9 @@ import com.example.weather.network.WORKER_DELAY_TIME
 import java.util.concurrent.TimeUnit
 
 class WorkerRepository {
-    private val constraints = Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
+    private val constraints = Constraints.Builder()
+        .setRequiredNetworkType(NetworkType.CONNECTED)
+        .build()
     val periodicWork = PeriodicWorkRequest.Builder(
         WeatherWorker::class.java,
         15L,
