@@ -42,7 +42,7 @@ class WeatherFragment : Fragment() {
     }
     private var fragList = mutableListOf(FragmentDays.newInstance(), FragmentHours.newInstance())
     private val tabNames = listOf("DAYS", "HOURS")
-   // private val workRepository = WorkerRepository()
+    private val workRepository = WorkerRepository()
     private var cities: String? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -97,10 +97,10 @@ class WeatherFragment : Fragment() {
         TabLayoutMediator(binding.tabLayout, binding.vp) { tab, pos ->
             tab.text = tabNames[pos]
         }.attach()
-       /* WorkManager.getInstance(requireActivity()).enqueueUniquePeriodicWork(
+        WorkManager.getInstance(requireActivity()).enqueueUniquePeriodicWork(
             "WeatherUpdate",
             ExistingPeriodicWorkPolicy.KEEP, workRepository.periodicWork
-        )*/
+        )
     }
 
     override fun onDestroyView() {
@@ -110,6 +110,6 @@ class WeatherFragment : Fragment() {
 
     override fun onDetach() {
         super.onDetach()
-       // WorkManager.getInstance(requireActivity()).cancelWorkById(workRepository.periodicWork.id)
+        //WorkManager.getInstance(requireActivity()).cancelWorkById(workRepository.periodicWork.id)
     }
 }

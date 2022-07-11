@@ -32,14 +32,14 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                 .replace(R.id.fragment_container_view, WeatherFragment::class.java, null).commit()
         }
 
-        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
-            "WeatherUpdate",
-            ExistingPeriodicWorkPolicy.KEEP, workRepository.periodicWork
-        )
+       // WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+      //      "WeatherUpdate",
+       //     ExistingPeriodicWorkPolicy.KEEP, workRepository.periodicWork
+       // )
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        WorkManager.getInstance(this).cancelWorkById(workRepository.periodicWork.id)
+       // WorkManager.getInstance(this).cancelWorkById(workRepository.periodicWork.id)
     }
 }

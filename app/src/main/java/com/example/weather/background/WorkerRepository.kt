@@ -16,6 +16,6 @@ class WorkerRepository {
         TimeUnit.MINUTES
     ).setConstraints(constraints)
         .addTag("WM")
-        .setInitialDelay(WORKER_DELAY_TIME, TimeUnit.SECONDS)
+       // .setInitialDelay(WORKER_DELAY_TIME, TimeUnit.SECONDS)
         .build()
 }
