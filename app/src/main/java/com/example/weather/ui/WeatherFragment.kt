@@ -108,8 +108,4 @@ class WeatherFragment : Fragment() {
         _binding = null
     }
 
-    override fun onDetach() {
-        super.onDetach()
-        //WorkManager.getInstance(requireActivity()).cancelWorkById(workRepository.periodicWork.id)
-    }
 }

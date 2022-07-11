@@ -31,7 +31,8 @@ class WeatherNotification(val context: Context) {
         val intent = Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
-        val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent,PendingIntent.FLAG_IMMUTABLE)
+        val pendingIntent: PendingIntent =
+            PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_launcher_foreground)
             .setContentTitle("Weather's update")
@@ -41,11 +42,7 @@ class WeatherNotification(val context: Context) {
             .setAutoCancel(true)
             .build()
 
-       /* with(NotificationManagerCompat.from(context))
-        {
-            notify(NOTIF_ID, builder.build())
-        }*/
-        notificationManagerCompat.notify(NOTIF_ID,builder)
+        notificationManagerCompat.notify(NOTIF_ID, builder)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -64,6 +61,6 @@ class WeatherNotification(val context: Context) {
     }
 
     fun dissmissNotification() {
-         notificationManagerCompat.cancel("TAG", NOTIF_ID)
+        notificationManagerCompat.cancel("TAG", NOTIF_ID)
     }
 }
