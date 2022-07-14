@@ -4,12 +4,20 @@ import android.util.Log
 import androidx.lifecycle.*
 import com.example.weather.database.Repository
 import com.example.weather.database.WeatherEntity
+import dagger.Module
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class WeatherViewModel(private val repository: Repository) : ViewModel() {
+
+
+@HiltViewModel
+class WeatherViewModel
+@Inject constructor(private val repository: Repository) : ViewModel() {
     var currentWeather: LiveData<WeatherEntity?> = repository.currentWeather.asLiveData()
 
     init {
@@ -21,16 +29,6 @@ class WeatherViewModel(private val repository: Repository) : ViewModel() {
             repository.insertDataToDb(city)
         } catch (e: Exception) {
             Log.d("Error", e.toString())
-        }
-    }
-}
-
-class WeatherViewModelFactory(private val repository: Repository) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return if (modelClass.isAssignableFrom(WeatherViewModel::class.java)) {
-            WeatherViewModel(repository) as T
-        } else {
-            throw IllegalArgumentException("Unknown ViewModel class")
         }
     }
 }

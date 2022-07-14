@@ -1,11 +1,11 @@
 package com.example.weather.database
 
-import android.content.Context
 import com.example.weather.data.WeatherForecast
-import com.example.weather.network.RetrofitHelper
+import com.example.weather.network.WeatherApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 interface IRepository {
     suspend fun loadDataFromNetwork(city: String): WeatherForecast
@@ -13,24 +13,25 @@ interface IRepository {
    suspend fun updateWeather(weatherEntity: WeatherEntity)
 }
 
-class Repository(context: Context) : IRepository {
-    private val db: WeatherDataBase = WeatherDataBase.create(context)
-    var currentWeather: Flow<WeatherEntity> = db.weatherDao().getAll()
+
+class Repository @Inject constructor(private val dao:WeatherDao, private val weatherApi: WeatherApi) : IRepository {
+
+    var currentWeather: Flow<WeatherEntity> = dao.getAll()
 
     override suspend fun loadDataFromNetwork(city: String): WeatherForecast =
         withContext(Dispatchers.IO)
         {
-            RetrofitHelper.retrofitService.getForecast(city)
+         weatherApi.getForecast(city)
         }
 
     override suspend fun insertDataToDb(city: String) {
-        db.clearAllTables()
+        dao.deleteAll()
         val currentWeatherCity = convertModelToEntity(loadDataFromNetwork(city))
-        db.weatherDao().insertWeather(currentWeatherCity)
+        dao.insertWeather(currentWeatherCity)
     }
 
     override suspend fun updateWeather(weatherEntity: WeatherEntity) =
-        db.weatherDao().updateWeather(weatherEntity)
+      dao.updateWeather(weatherEntity)
 
     private fun convertModelToEntity(weatherForecast: WeatherForecast):WeatherEntity
     {

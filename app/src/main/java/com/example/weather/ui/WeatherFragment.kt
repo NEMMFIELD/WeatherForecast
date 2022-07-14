@@ -1,48 +1,35 @@
 package com.example.weather.ui
 
 import android.app.AlertDialog
-import android.app.Application
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.asLiveData
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.ExistingWorkPolicy
-import androidx.work.WorkManager
 import coil.load
 import com.example.weather.adapters.VPAdapter
-import com.example.weather.background.WorkerRepository
-import com.example.weather.database.Repository
 import com.example.weather.databinding.FragmentWeatherBinding
 import com.example.weather.viewmodel.ViewModelDays
 import com.example.weather.viewmodel.WeatherViewModel
-import com.example.weather.viewmodel.WeatherViewModelFactory
-import com.google.android.material.tabs.TabLayoutMediator
-import java.security.Policy
 
+import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
 class WeatherFragment : Fragment() {
     private var _binding: FragmentWeatherBinding? = null
     private val binding get() = _binding!!
     private val sharedViewModel: ViewModelDays by activityViewModels()
-    private val viewModel: WeatherViewModel by viewModels {
-        WeatherViewModelFactory(
-            Repository(
-                requireContext()
-            )
-        )
-    }
+    private val viewModel :WeatherViewModel by viewModels()
+
     private var fragList = mutableListOf(FragmentDays.newInstance(), FragmentHours.newInstance())
     private val tabNames = listOf("DAYS", "HOURS")
-    private val workRepository = WorkerRepository()
     private var cities: String? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -79,7 +66,6 @@ class WeatherFragment : Fragment() {
         }
 
         viewModel.currentWeather.observe(this.viewLifecycleOwner, Observer {
-            // println("Test: $it")
             with(binding)
             {
                 tempId.text = it?.temp.toString()
@@ -97,10 +83,6 @@ class WeatherFragment : Fragment() {
         TabLayoutMediator(binding.tabLayout, binding.vp) { tab, pos ->
             tab.text = tabNames[pos]
         }.attach()
-        WorkManager.getInstance(requireActivity()).enqueueUniquePeriodicWork(
-            "WeatherUpdate",
-            ExistingPeriodicWorkPolicy.KEEP, workRepository.periodicWork
-        )
     }
 
     override fun onDestroyView() {

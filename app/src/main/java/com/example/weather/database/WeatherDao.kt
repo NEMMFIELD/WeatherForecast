@@ -14,4 +14,6 @@ interface WeatherDao {
     @Update
     fun updateWeather(weatherEntity: WeatherEntity)
 
+    @Query("DELETE FROM weather")
+    fun deleteAll()
 }

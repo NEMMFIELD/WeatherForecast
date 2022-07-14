@@ -13,11 +13,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weather.adapters.WeatherForecastAdapterHours
 import com.example.weather.data.WeatherModelHours
 import com.example.weather.data.convertToWeatherHoursModel
-import com.example.weather.database.Repository
 import com.example.weather.databinding.FragmentHoursBinding
 import com.example.weather.viewmodel.ViewModelDays
-import com.example.weather.viewmodel.WeatherViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class FragmentHours : Fragment() {
     private var _binding: FragmentHoursBinding? = null
     private val binding get() = _binding!!

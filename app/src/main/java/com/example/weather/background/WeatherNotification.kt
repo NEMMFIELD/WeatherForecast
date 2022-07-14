@@ -3,19 +3,13 @@ package com.example.weather.background
 import android.app.*
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.Build
-import androidx.annotation.MainThread
 import androidx.annotation.RequiresApi
-import androidx.annotation.WorkerThread
-import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.weather.MainActivity
 import com.example.weather.R
 import com.example.weather.database.WeatherEntity
-import androidx.core.app.NotificationManagerCompat.IMPORTANCE_HIGH
-import androidx.core.app.NotificationManagerCompat.IMPORTANCE_UNSPECIFIED
 
 class WeatherNotification(val context: Context) {
     companion object {
