@@ -2,7 +2,11 @@ package com.example.weather.di
 
 import android.content.Context
 import androidx.room.Room
+import com.example.weather.database.IRepository
+import com.example.weather.database.Repository
+import com.example.weather.database.WeatherDao
 import com.example.weather.database.WeatherDataBase
+import com.example.weather.network.WeatherApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,4 +28,8 @@ object DatabaseModule {
     @Singleton
     @Provides
     fun provideDao(dataBase: WeatherDataBase) = dataBase.weatherDao()
+
+    @Singleton
+    @Provides
+    fun provideRepository(dao:WeatherDao, weatherApi: WeatherApi):IRepository = Repository(dao,weatherApi)
 }

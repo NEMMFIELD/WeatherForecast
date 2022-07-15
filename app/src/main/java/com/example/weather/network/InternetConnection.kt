@@ -1,30 +1,38 @@
 package com.example.weather.network
 
+import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.util.Log
+import android.net.Network
+import android.net.NetworkRequest
+import androidx.lifecycle.LiveData
 
-class InternetConnection {
-    fun isOnline(context: Context): Boolean {
-        val connectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        if (connectivityManager != null) {
-            val capabilities =
-                connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-            if (capabilities != null) {
-                if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
-                    Log.i("Internet", "NetworkCapabilities.TRANSPORT_CELLULAR")
-                    return true
-                } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
-                    Log.i("Internet", "NetworkCapabilities.TRANSPORT_WIFI")
-                    return true
-                } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
-                    Log.i("Internet", "NetworkCapabilities.TRANSPORT_ETHERNET")
-                    return true
-                }
-            }
+class InternetConnection(private val cm: ConnectivityManager): LiveData<Boolean>() {
+    constructor(application: Application) : this(
+        application.getSystemService(Context.CONNECTIVITY_SERVICE)
+                as ConnectivityManager
+    )
+
+    private val networkCallback = object : ConnectivityManager.NetworkCallback(){
+        override fun onAvailable(network: Network) {
+            super.onAvailable(network)
+            postValue(true)
         }
-        return false
+
+        override fun onLost(network: Network) {
+            super.onLost(network)
+            postValue(false)
+        }
+    }
+
+    override fun onActive() {
+        super.onActive()
+        val request= NetworkRequest.Builder()
+        cm.registerNetworkCallback(request.build(),networkCallback)
+    }
+
+    override fun onInactive() {
+        super.onInactive()
+        cm.unregisterNetworkCallback(networkCallback)
     }
 }

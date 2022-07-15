@@ -6,6 +6,9 @@ import androidx.work.*
 import com.example.weather.background.WeatherWorker
 import com.example.weather.network.Constants
 import dagger.hilt.android.HiltAndroidApp
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -13,6 +16,7 @@ import javax.inject.Inject
 class WeatherApplication : Application(), Configuration.Provider {
     @Inject
     lateinit var workerFactory: HiltWorkerFactory
+    private val applicationScope = CoroutineScope(Dispatchers.Default)
     override fun getWorkManagerConfiguration(): Configuration =
         Configuration.Builder()
             .setWorkerFactory(workerFactory)
@@ -20,6 +24,16 @@ class WeatherApplication : Application(), Configuration.Provider {
 
     override fun onCreate() {
         super.onCreate()
+        delayedInit()
+    }
+
+    private fun delayedInit() {
+       applicationScope.launch {
+            setupWork()
+        }
+    }
+     fun setupWork()
+    {
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
@@ -36,4 +50,5 @@ class WeatherApplication : Application(), Configuration.Provider {
             ExistingPeriodicWorkPolicy.KEEP, periodicWork
         )
     }
+
 }

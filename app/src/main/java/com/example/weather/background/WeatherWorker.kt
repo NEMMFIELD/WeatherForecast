@@ -19,7 +19,7 @@ import kotlinx.coroutines.withContext
 class WeatherWorker @AssistedInject constructor(
     @Assisted val context: Context,
     @Assisted workerParams: WorkerParameters,
-    val repository: Repository
+    private val repository: Repository
 ) :
     CoroutineWorker(context, workerParams) {
     override suspend fun doWork(): Result = withContext(Dispatchers.IO)

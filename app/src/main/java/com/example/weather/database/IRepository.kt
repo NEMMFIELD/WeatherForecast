@@ -9,19 +9,25 @@ import javax.inject.Inject
 
 interface IRepository {
     suspend fun loadDataFromNetwork(city: String): WeatherForecast
-   suspend fun insertDataToDb(city:String)
-   suspend fun updateWeather(weatherEntity: WeatherEntity)
+    suspend fun insertDataToDb(city: String)
+    suspend fun updateWeather(weatherEntity: WeatherEntity)
 }
 
-
-class Repository @Inject constructor(private val dao:WeatherDao, private val weatherApi: WeatherApi) : IRepository {
+class Repository @Inject constructor(
+    private val dao: WeatherDao,
+    private val weatherApi: WeatherApi
+) : IRepository {
 
     var currentWeather: Flow<WeatherEntity> = dao.getAll()
+
+    init {
+        println("Hi, i'm repository and i'm here!")
+    }
 
     override suspend fun loadDataFromNetwork(city: String): WeatherForecast =
         withContext(Dispatchers.IO)
         {
-         weatherApi.getForecast(city)
+            weatherApi.getForecast(city)
         }
 
     override suspend fun insertDataToDb(city: String) {
@@ -31,13 +37,12 @@ class Repository @Inject constructor(private val dao:WeatherDao, private val wea
     }
 
     override suspend fun updateWeather(weatherEntity: WeatherEntity) =
-      dao.updateWeather(weatherEntity)
+        dao.updateWeather(weatherEntity)
 
-    private fun convertModelToEntity(weatherForecast: WeatherForecast):WeatherEntity
-    {
+    private fun convertModelToEntity(weatherForecast: WeatherForecast): WeatherEntity {
         return WeatherEntity(
             city = weatherForecast.location?.name.toString(),
-           date = weatherForecast.location?.localtime.toString(),
+            date = weatherForecast.location?.localtime.toString(),
             temp = weatherForecast.current?.tempC,
             info = weatherForecast.current?.condition?.text.toString(),
             maxTemp = weatherForecast.forecast?.forecastday?.get(0)?.day?.maxtempC,
